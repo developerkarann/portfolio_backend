@@ -2,10 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend part of portfolio ",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node app.js",
+    "build": "echo success"
   },
   "author": "Karan Pal",
   "license": "ISC",
