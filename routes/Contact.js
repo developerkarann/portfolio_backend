@@ -5,6 +5,7 @@ const Contact = require('../model/contectSchema')
 const nodemailer = require('nodemailer');
 
 router.post('/contact', async (req, res) => {
+
   const { name, email, subject, description } = req.body
   try {
     if (!name || !email || !subject || !description) {
@@ -17,7 +18,10 @@ router.post('/contact', async (req, res) => {
       description
     })
     await data.save()
-    // send email >>>
+
+
+    // send email functionality >>>
+
 
     // Connect with SMTP Server
     const transporterForUser = nodemailer.createTransport({ // For User
@@ -35,6 +39,8 @@ router.post('/contact', async (req, res) => {
         pass: process.env.MYPASS
       }
     });
+
+
     // Send Mail and body
 
     // Options for getting user info/message by email
@@ -70,25 +76,33 @@ router.post('/contact', async (req, res) => {
       </h3>
       `
     }
-
-    transporterForUser.sendMail(UserOptions, (error, info) => {   // For User
-      if (error) {
-        console.log('Error', error.message)
-      } else {
-        console.log('Email Sent Successfully To The User', info.response)
-
-      }
-    })
-    transporterToMe.sendMail(MyOptions, (error, info) => {     // For Us 
-      if (error) {
-        console.log('Error', error.message)
-      } else {
-        console.log('Email Sent Successfully To Me', info.response)
-      }
+    await new Promise((resolve, reject) => {
+      transporterForUser.sendMail(UserOptions, (error, info) => {   // For User
+        if (error) {
+          console.log('Error', error.message)
+          reject(err);
+        } else {
+          console.log('Email Sent Successfully To The User', info.response)
+          resolve(info);
+        }
+      })
     })
 
-    return res.status(200).json({ status: 'error', message: 'Data received' })
+    await new Promise((resolve, reject) => {
+      transporterToMe.sendMail(MyOptions, (error, info) => {     // For Us 
+        if (error) {
+          console.log('Error', error.message)
+          reject(err);
+        } else {
+          console.log('Email Sent Successfully To Me', info.response)
+          resolve(info);
+        }
+      })
+    })
 
+
+
+    return res.status(200).json({ status: 'success', message: 'Data received' })
   } catch (error) {
     res.status(404).json({ error: error.message, message: 'Getting error while calling contact api' })
   }
