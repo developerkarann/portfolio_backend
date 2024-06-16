@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000
 
 Database();
 
-app.use(cors());
+app.use(cors({origin: '*'}));
 
 app.use(express.json())
 
