@@ -8,8 +8,8 @@ const port = process.env.PORT || 5000
 Database();
 
 app.use(cors({
-  // origin: true,
-  origin: process.env.CLIENT_URL,
+  origin: true,
+  // origin: process.env.CLIENT_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
