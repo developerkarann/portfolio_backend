@@ -7,7 +7,10 @@ const port = process.env.PORT || 5000
 
 Database();
 
-app.use(cors({origin: '*'}));
+app.use(cors({
+  // origin: true,
+  origin: 'https://portfolio-backend-nu-five.vercel.app',
+}));
 
 app.use(express.json())
 
