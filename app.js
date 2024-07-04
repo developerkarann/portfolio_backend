@@ -9,7 +9,9 @@ Database();
 
 app.use(cors({
   // origin: true,
-  origin: 'https://portfolio-backend-nu-five.vercel.app',
+  origin: process.env.CLIENT_URL,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
 }));
 
 app.use(express.json())
